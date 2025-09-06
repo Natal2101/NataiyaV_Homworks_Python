@@ -1,0 +1,31 @@
+def contains(self, string: str, symbol: str) -> bool:
+    """
+    Возвращает `True`, если строка содержит искомый символ
+    и `False` - если нет
+    Параметры:
+        `string` - строка для обработки
+        `symbol` - искомый символ
+    Пример 1: `contains("SkyPro", "S") -> True`
+    Пример 2: `contains("SkyPro", "U") -> False`
+    """
+    res = False
+    try:
+        res = string.index(symbol) > -1
+    except ValueError:
+        pass
+
+    return res
+
+Можно написать проще:
+
+def contains(self, string: str, symbol: str) -> bool:
+        """
+        Возвращает `True`, если строка содержит искомый символ
+        и `False` - если нет
+        Параметры:
+            `string` - строка для обработки
+            `symbol` - искомый символ
+        Пример 1: `contains("SkyPro", "S") -> True`
+        Пример 2: `contains("SkyPro", "U") -> False`
+        """
+    return symbol in string
