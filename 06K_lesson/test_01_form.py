@@ -23,15 +23,12 @@ def test_form():
     driver.execute_script("arguments[0].scrollIntoView();", button)
     driver.execute_script("arguments[0].click();", button)
 
-    elements = driver.find_elements(By.CSS_SELECTOR, "div.alert")
+    zip_code = driver.find_element(By.ID, "zip-code").value_of_css_property("background-color")
+    assert zip_code == "rgba(248, 215, 218, 1)"
 
-    for el in elements:
-        result = el.value_of_css_property("background-color")
-        if el.get_attribute("id") == "zip-code":
-            assert result == "rgba(248, 215, 218, 1)"
-            print(f"{el.get_attribute("id")} = красный")
-        elif el.get_attribute("id") != "zip-code":
-            assert result == "rgba(209, 231, 221, 1)"
-            print(f"{el.get_attribute("id")} = зеленый")
+    fields = ["first-name", "last-name", "address", "city", "country", "e-mail", "phone", "job-position", "company"]
+    for field_id in fields:
+        field = driver.find_element(By.ID, field_id).value_of_css_property("background-color")
+        assert field == "rgba(209, 231, 221, 1)"
 
     driver.quit()
