@@ -1,6 +1,3 @@
-import pytest
-
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -38,6 +35,3 @@ def test_form():
             print(f"{el.get_attribute("id")} = зеленый")
 
     driver.quit()
-
-
-
