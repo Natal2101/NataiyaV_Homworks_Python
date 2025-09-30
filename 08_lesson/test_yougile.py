@@ -16,8 +16,8 @@ def test_positive_create_project():
     # 2. получить токен
     key_company = api.create_key(login, password, id_company)["key"]
     # 3. создать проект
-    created_project = api.create_project(key_company, title_project, users)
-    id_project = created_project["id"]
+    response = api.create_project(key_company, title_project, users)
+    id_project = response["id"]
 
     assert id_project is not None
 
@@ -37,9 +37,9 @@ def test_positive_change_title_project():
     id_project = api.create_project(key_company, title_project, users)["id"]
 
     # 2. изменить название проекта
-    id_changed_project = api.change_title_project(
+    response = api.change_title_project(
         key_company, new_title_project, users, id_project)["id"]
-
+    id_changed_project = response["id"]
     assert id_changed_project == id_project
 
 
@@ -63,7 +63,8 @@ def test_positive_get_title_project():
     id_project = api.create_project(key_company, title_project, users)["id"]
 
     # 2. получить информацию о проекте
-    get_title = api.get_title_project(key_company, id_project)['title']
+    response = api.get_title_project(key_company, id_project)
+    get_title = response['title']
 
     assert get_title == title_project
 
