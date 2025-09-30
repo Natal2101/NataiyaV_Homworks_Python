@@ -2,9 +2,9 @@ from YougileApi import YougileApi
 
 
 api = YougileApi("https://ru.yougile.com")
-login = 'natavas2101@gmail.com'
-password = '828405@Natasha'
-name = 'QA_65.0'
+login = ''
+password = ''
+name = ''
 title_project = 'Title Project'
 new_title_project = 'New Title Project'
 users = {}
