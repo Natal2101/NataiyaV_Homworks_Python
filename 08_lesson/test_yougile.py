@@ -16,18 +16,18 @@ def test_positive_create_project():
     # 2. получить токен
     key_company = api.create_key(login, password, id_company)["key"]
     # 3. создать проект
-    response = api.create_project(key_company, title_project, users)
-    id_project = response["id"]
+    response_json = api.create_project(key_company, title_project, users)
+    id_project = response_json["id"]
 
     assert id_project is not None
 
 
 def test_negative_create_project():
     key_company = 'none-key-company'
-    response = api.create_project(key_company, title_project, users)
+    response_json = api.create_project(key_company, title_project, users)
 
-    assert response.get('error')  # проверяем наличие поля "error"
-    assert isinstance(response.get('error'), str)
+    assert response_json.get('error')  # проверяем наличие поля "error"
+    assert isinstance(response_json.get('error'), str)
 
 
 def test_positive_change_title_project():
@@ -37,9 +37,10 @@ def test_positive_change_title_project():
     id_project = api.create_project(key_company, title_project, users)["id"]
 
     # 2. изменить название проекта
-    response = api.change_title_project(
-        key_company, new_title_project, users, id_project)["id"]
-    id_changed_project = response["id"]
+    response_json, status_code = api.change_title_project(
+        key_company, new_title_project, users, id_project)
+    id_changed_project = response_json["id"]
+    assert status_code == 200
     assert id_changed_project == id_project
 
 
@@ -49,11 +50,11 @@ def test_negative_change_title_project():
 
     # изменить название проекта
     id_project = 'none-project-id'
-    response = api.change_title_project(
+    response_json, status_code = api.change_title_project(
          key_company, new_title_project, users, id_project)
-
-    assert response.get('error')  # проверка наличия поля ошибки
-    assert isinstance(response.get('error'), str)
+    assert status_code == 404
+    assert response_json.get('error')  # проверка наличия поля ошибки
+    assert isinstance(response_json.get('error'), str)
 
 
 def test_positive_get_title_project():
@@ -63,9 +64,9 @@ def test_positive_get_title_project():
     id_project = api.create_project(key_company, title_project, users)["id"]
 
     # 2. получить информацию о проекте
-    response = api.get_title_project(key_company, id_project)
-    get_title = response['title']
-
+    response_json, status_code = api.get_title_project(key_company, id_project)
+    get_title = response_json['title']
+    assert status_code == 200
     assert get_title == title_project
 
 
@@ -75,7 +76,7 @@ def test_negative_get_title_project():
 
     # получить информацию о проекте
     id_project = 'none-project-id'
-    response = api.get_title_project(key_company, id_project)
-
-    assert response.get('error')  # проверка наличия поля ошибки
-    assert isinstance(response.get('error'), str)
+    response_json, status_code = api.get_title_project(key_company, id_project)
+    assert status_code == 404
+    assert response_json.get('error')  # проверка наличия поля ошибки
+    assert isinstance(response_json.get('error'), str)

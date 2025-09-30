@@ -39,11 +39,11 @@ class YougileApi:
                                  'users': users}
         resp = requests.put(f"{self.url}/api-v2/projects/{id_project}",
                             headers=headers, json=data_for_change_title)
-        return resp.json()
+        return resp.json(), resp.status_code
 
     def get_title_project(self, key_company, id_project):
         headers = {'Content-Type': 'application/json',
                    'Authorization': f"Bearer {key_company}"}
         resp = requests.get(f"{self.url}/api-v2/projects/{id_project}",
                             headers=headers)
-        return resp.json()
+        return resp.json(), resp.status_code
