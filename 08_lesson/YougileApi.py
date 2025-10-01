@@ -23,13 +23,12 @@ class YougileApi:
         return resp.json()
 
     def create_project(self, key_company, title_project, users):
-        # 3. создать проект
         headers = {'Content-Type': 'application/json',
                    'Authorization': f"Bearer {key_company}"}
         body = {'title': title_project, 'users': users}
         resp = requests.post(f"{self.url}/api-v2/projects",
                              headers=headers, json=body)
-        return resp.json()
+        return resp.json(), resp.status_code
 
     def change_title_project(self, key_company, new_title_project,
                              users, id_project):

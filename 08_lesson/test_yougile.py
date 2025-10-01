@@ -1,3 +1,6 @@
+from http.client import responses
+
+
 from YougileApi import YougileApi
 
 
@@ -12,29 +15,35 @@ users = {}
 
 def test_positive_create_project():
     # 1. получить id компании
-    id_company = api.get_id_company(login, password, name)["content"][0]["id"]
+    id_company = api.get_id_company(
+        login, password, name)["content"][0]["id"]
     # 2. получить токен
     key_company = api.create_key(login, password, id_company)["key"]
     # 3. создать проект
-    response_json = api.create_project(key_company, title_project, users)
+    response_json, status_code = api.create_project(
+        key_company, title_project, users)
     id_project = response_json["id"]
-
+    assert status_code == 201
     assert id_project is not None
 
 
 def test_negative_create_project():
     key_company = 'none-key-company'
-    response_json = api.create_project(key_company, title_project, users)
-
+    response_json, status_code = api.create_project(
+        key_company, title_project, users)
+    assert status_code == 401
     assert response_json.get('error')  # проверяем наличие поля "error"
     assert isinstance(response_json.get('error'), str)
 
 
 def test_positive_change_title_project():
     # 1. создать проект
-    id_company = api.get_id_company(login, password, name)["content"][0]["id"]
+    response = api.get_id_company(login, password, name)
+    id_company = response["content"][0]["id"]
     key_company = api.create_key(login, password, id_company)["key"]
-    id_project = api.create_project(key_company, title_project, users)["id"]
+    result = api.create_project(key_company, title_project, users)
+    response_json, status_code = result
+    id_project = response_json["id"]
 
     # 2. изменить название проекта
     response_json, status_code = api.change_title_project(
@@ -45,7 +54,8 @@ def test_positive_change_title_project():
 
 
 def test_negative_change_title_project():
-    id_company = api.get_id_company(login, password, name)["content"][0]["id"]
+    response = api.get_id_company(login, password, name)
+    id_company = response["content"][0]["id"]
     key_company = api.create_key(login, password, id_company)["key"]
 
     # изменить название проекта
@@ -59,9 +69,12 @@ def test_negative_change_title_project():
 
 def test_positive_get_title_project():
     # 1. создать проект
-    id_company = api.get_id_company(login, password, name)["content"][0]["id"]
+    response = api.get_id_company(login, password, name)
+    id_company = response["content"][0]["id"]
     key_company = api.create_key(login, password, id_company)["key"]
-    id_project = api.create_project(key_company, title_project, users)["id"]
+    result = api.create_project(key_company, title_project, users)
+    response_json, status_code = result
+    id_project = response_json["id"]
 
     # 2. получить информацию о проекте
     response_json, status_code = api.get_title_project(key_company, id_project)
@@ -71,8 +84,10 @@ def test_positive_get_title_project():
 
 
 def test_negative_get_title_project():
-    id_company = api.get_id_company(login, password, name)["content"][0]["id"]
-    key_company = api.create_key(login, password, id_company)["key"]
+    response = api.get_id_company(login, password, name)
+    id_company = response["content"][0]["id"]
+    result = api.create_key(login, password, id_company)
+    key_company = result["key"]
 
     # получить информацию о проекте
     id_project = 'none-project-id'
