@@ -283,31 +283,3 @@ def test_negative_get_title_project():
     except Exception as e:
         print(f"Произошла ошибка в test_negative_get_title_project: {str(e)}")
         return False
-
-
-# Запуск всех тестов
-if __name__ == "__main__":
-    tests = [
-        test_positive_create_project,
-        test_negative_create_project,
-        test_positive_change_title_project,
-        test_negative_change_title_project,
-        test_positive_get_title_project,
-        test_negative_get_title_project
-    ]
-
-    passed = 0
-    failed = 0
-
-    for test in tests:
-        print(f"\nЗапуск теста: {test.__name__}")
-        print("=" * 50)
-        if test():
-            passed += 1
-            print(f"✓ Тест {test.__name__} ПРОЙДЕН")
-        else:
-            failed += 1
-            print(f"✗ Тест {test.__name__} НЕ ПРОЙДЕН")
-        print("=" * 50)
-
-    print(f"\nИтоговый результат: {passed} пройдено, {failed} не пройдено")
