@@ -12,8 +12,7 @@ class CalcMainPage:
         получение результата.
     """
 
-    @allure.step("Инициализирует экземпляр страницы. "
-                 "Параметр driver: WebDriver")
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 45)

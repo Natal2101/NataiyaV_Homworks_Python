@@ -12,8 +12,7 @@ class ShopPage:
         добавление товаров в корзину, ввод данных и получение итоговой суммы.
     """
 
-    @allure.step("Инициализирует экземпляр страницы. "
-                 "Параметр driver: WebDriver")
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 200)

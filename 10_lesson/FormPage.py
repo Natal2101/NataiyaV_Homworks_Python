@@ -13,8 +13,7 @@ class FormPage:
         отправка формы и проверка состояния полей.
     """
 
-    @allure.step("Инициализирует экземпляр страницы. "
-                 "Параметр driver: WebDriver")
+
     def __init__(self, driver) -> None:
         self.driver = driver
         self.wait = WebDriverWait(driver, 5)
@@ -47,9 +46,7 @@ class FormPage:
     @allure.step("Нажимает кнопку отправки формы")
     def submit_form(self) -> None:
         button = self.driver.find_element(By.CSS_SELECTOR, '[type="submit"]')
-        # self.wait.until(
-        #     EC.element_to_be_clickable((
-        #         By.CSS_SELECTOR, '[type="submit"]'))).click()
+
         self.driver.execute_script("arguments[0].scrollIntoView();", button)
         self.driver.execute_script("arguments[0].click();", button)
 
